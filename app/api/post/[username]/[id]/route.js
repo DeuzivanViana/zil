@@ -3,17 +3,10 @@ import { NextResponse } from 'next/server'
 
 export const GET = async (req, {params}) => {
     try {
-        const {username} = await params
-        
-        const user = await db.user.findUnique({
+        await params
+        const posts = await db.post.findUnique({
             where: {
-                USERNAME: username
-            }
-        })
-       
-        const posts = await db.post.findMany({
-            where: {
-                OWNER_ID: user.ID
+                ID: params.id
             }
         })
 

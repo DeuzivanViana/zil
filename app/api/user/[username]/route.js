@@ -3,9 +3,10 @@ import { NextResponse } from 'next/server'
 
 export const GET = async (req, { params }) => {
     try {
+        const {username} = await params
         const user = await db.user.findUnique({
             where: {
-                USERNAME: params.username
+                USERNAME: username
             }
         })
 

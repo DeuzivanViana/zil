@@ -31,6 +31,7 @@ export const Home = () => {
           username={val.USERNAME}
           content={val.CONTENT}
           key={index}
+          id={val.ID}
         />
       })
     }
