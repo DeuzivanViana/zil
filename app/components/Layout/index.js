@@ -1,10 +1,10 @@
 import { NavigationBar } from '../NavigationBar'
 
-export const Layout = ({children, title}) => {
+export const Layout = ({children, title, className}) => {
     return (
         <div>
             <NavigationBar title={title}/>
-            <main>
+            <main className={className}>
                 { children }
             </main>
         </div>

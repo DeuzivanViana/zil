@@ -54,7 +54,17 @@ export const POST = async (req) => {
 
 export const GET = async (req, {params}) => {
     try {
-        const posts = await db.post.findMany()
+        const posts = (await db.post.findMany()).reverse()
+        
+        for(let i = 0; i < posts.length; i++) {
+            const user = await db.user.findUnique({
+                where: {
+                    ID: posts[i].OWNER_ID
+                }
+            })
+            
+            posts[i].USERNAME = user.USERNAME
+        }
 
         return NextResponse.json(posts, {status: 200})
     } catch(error) {

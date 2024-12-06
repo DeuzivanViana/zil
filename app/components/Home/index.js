@@ -23,11 +23,12 @@ export const Home = () => {
     })()
   }, [])
 
-  return <Layout title={'Home'}>
+  return <Layout title={'Home'} className={'p-4'}>
     {
       posts.map((val, index) => {
         return <Post
-          username={val.OWNER_ID}
+          className={'max-w-[600px] m-auto'}
+          username={val.USERNAME}
           content={val.CONTENT}
           key={index}
         />

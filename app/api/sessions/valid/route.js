@@ -13,8 +13,6 @@ export const GET = async () => {
             }
         })
 
-        console.log(session)
-        console.log(token)
         
         if(session === null)
             return NextResponse.json({}, {status: 404})
