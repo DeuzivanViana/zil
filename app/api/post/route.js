@@ -51,3 +51,13 @@ export const POST = async (req) => {
         return NextResponse.json({}, {status: 500})
     }
 }
+
+export const GET = async (req, {params}) => {
+    try {
+        const posts = await db.post.findMany()
+
+        return NextResponse.json(posts, {status: 200})
+    } catch(error) {
+        return NextResponse.json({}, {status: 500})
+    }
+}
