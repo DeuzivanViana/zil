@@ -10,7 +10,7 @@ export const Home = () => {
   const [page, setPage] = useState(1)
 
   const loadPage = async () => {
-    res = await fetch(`/api/post?page=${page}`)
+    const res = await fetch(`/api/post?page=${page}`)
     const body = await res.json()
     
     setPosts(body)
