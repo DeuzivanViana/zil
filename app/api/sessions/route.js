@@ -4,6 +4,8 @@ import { createHash, randomUUID } from 'crypto'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
+export const dynamic = 'force-dynamic'
+
 const scheme = z.object({
     username: z.string().max(21).min(2),
     password: z.string().max(128).min(6)

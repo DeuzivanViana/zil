@@ -1,6 +1,8 @@
 import { db } from '@/infra/database'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export const GET = async (req, { params }) => {
     try {
         const {username} = await params
@@ -19,6 +21,4 @@ export const GET = async (req, { params }) => {
     } catch(error) {
         return NextResponse.json({}, {status: 500})
     }
-
-    return NextResponse.json({}, {status: 200})
 }

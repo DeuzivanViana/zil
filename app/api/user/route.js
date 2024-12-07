@@ -9,6 +9,7 @@ const scheme = z.object({
 })
 
 export const POST = async (req, res) => {
+    try {
         const data = scheme.parse(await req.json())
         
         await db.user.create({
@@ -19,5 +20,8 @@ export const POST = async (req, res) => {
         })
 
         return NextResponse.json({}, {status: 200})
-    
+    }
+    catch(error) {
+        return NextResponse.json(error, {status: 500})
+    }
 }
