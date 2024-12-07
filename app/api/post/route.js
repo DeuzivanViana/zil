@@ -54,7 +54,17 @@ export const POST = async (req) => {
 
 export const GET = async (req, {params}) => {
     try {
-        const posts = (await db.post.findMany()).reverse()
+        const page = Number(await req.nextUrl.searchParams.get('page')) || 1
+        const pageSize = Number(await req.nextUrl.searchParams.get('pageSize')) || 10
+        const offset = (page - 1) * pageSize
+
+        const posts = await db.post.findMany({
+            take: pageSize,
+            skip: offset,
+            orderBy: {
+                CREATED_AT: 'desc'
+            }
+        })
         
         for(let i = 0; i < posts.length; i++) {
             const user = await db.user.findUnique({

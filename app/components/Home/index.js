@@ -16,7 +16,7 @@ export const Home = () => {
         router.push('/signup')
       }
 
-      res = await fetch('/api/post')
+      res = await fetch('/api/post?page=1')
       const body = await res.json()
       
       setPosts(body)
