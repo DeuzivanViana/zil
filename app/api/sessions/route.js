@@ -48,7 +48,7 @@ export const POST = async (req) => {
             })
         }
 
-        store.set('TOKEN', session.TOKEN)
+        (await store).set('TOKEN', session.TOKEN)
         
         return NextResponse.json({}, {status: 200})
     }

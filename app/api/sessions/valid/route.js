@@ -3,10 +3,10 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export const GET = async () => {
-    const cookie = cookies()
+    const store = cookies()
 
     try {
-        const token = (await cookie).get('TOKEN').value
+        const token = (await store).get('TOKEN').value
         const session = await db.session.findMany({
             where: {
                 TOKEN: token
