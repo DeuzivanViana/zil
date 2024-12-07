@@ -1,6 +1,8 @@
 import { db } from '@/infra/database'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export const GET = async (req, {params}) => {
     try {
         const page = Number(await req.nextUrl.searchParams.get('page')) || 1

@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const scheme = z.object({
     content: z.string().max(512).min(2)
 })
