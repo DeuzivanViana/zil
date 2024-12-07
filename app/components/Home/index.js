@@ -10,12 +10,6 @@ export const Home = () => {
   const [page, setPage] = useState(1)
 
   const loadPage = async () => {
-    let res = await fetch('/api/sessions/valid')
-    
-    if(res.status !== 200) {
-      router.push('/signup')
-    }
-
     res = await fetch(`/api/post?page=${page}`)
     const body = await res.json()
     
