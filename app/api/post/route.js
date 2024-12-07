@@ -84,6 +84,8 @@ export const GET = async (req, {params}) => {
                 posts[i].USERNAME = user.USERNAME
                 posts_t.push(posts[i])
             }
+
+            posts[i].TRUSTED = user.ROLES.includes('TRUSTED')
         }
 
         return NextResponse.json(posts_t, {status: 200})

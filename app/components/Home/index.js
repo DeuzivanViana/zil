@@ -44,6 +44,7 @@ export const Home = () => {
           key={index}
           id={val.ID}
           createdAt={val.CREATED_AT}
+          trusted={val.TRUSTED}
         />
       })
     }
