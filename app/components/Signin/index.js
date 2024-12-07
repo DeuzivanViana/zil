@@ -1,6 +1,10 @@
 'use client'
 import { Layout } from '../Layout'
 import { useRouter } from 'next/navigation'
+import { Input } from '../UI/Input'
+import { Button } from '../UI/Button'
+import { Form } from '../UI/Form'
+import Link from 'next/link'
 
 export const Signin = () => {
     const router = useRouter()
@@ -26,10 +30,11 @@ export const Signin = () => {
     }
 
     return <Layout title={'Sign-in'} className={'p-4'}>
-        <form onSubmit={onSubmit} className='gap-2 flex flex-col mt-16 bg-neutral-800 p-8 rounded-lg max-w-[400px] m-auto'>
-            <input type='text' name='username' placeholder='Username' className='placeholder-neutral-500 p-2 text-sm rounded-md outline-none'/>
-            <input type='password' name='password' placeholder='Password' className='placeholder-neutral-500 p-2 text-sm rounded-md outline-none'/>
-            <button type='submit' className='p-2 mt-6 bg-green-400 rounded-md'>Sign-in</button>
-        </form>
+        <Form onSubmit={onSubmit}>
+            <Input type={'text'} name={'username'} placeholder={'Username'}/>
+            <Input type={'password'} name={'password'} placeholder={'Password'}/>
+            <Button type={'submit'} value={'Sign-in'}/>
+            <Link href={'/signup'} className='text-center text-blue-400 text-xs underline'>sign-up</Link>
+        </Form>
     </Layout>
 }

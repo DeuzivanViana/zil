@@ -1,12 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { Layout } from '../Layout'
 
 export const UserPost = ({params}) => {
     const [post, setPost] = useState()
+    const [post_owner_username, setPostOwnerUsername] = useState()
 
     useEffect(() => {
         (async () => {
             const {username, post_id} = await params
+
+            setPostOwnerUsername(username)
 
             const res = await fetch(`/api/post/${username}/${post_id}`)
             const data = await res.json()
@@ -15,5 +19,7 @@ export const UserPost = ({params}) => {
         })()
     }, [])
 
-    return <h1 className='p-6 text-neutral-50'>{post?.CONTENT}</h1>
+    return <Layout title={`Post of ${post_owner_username}`}>
+        <pre className='p-6 text-neutral-50 max-w-[650px] m-auto break-words whitespace-pre-line'>{post?.CONTENT}</pre>
+    </Layout>
 }
