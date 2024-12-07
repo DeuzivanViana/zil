@@ -29,6 +29,10 @@ export const POST = async (req) => {
             }
         })
 
+        if(!user.ROLES.includes('WRITE')) {
+            throw {message: 'You can\'t post'}
+        }
+        
         const post = await db.post.create({
             data: {
                 CONTENT: data.content,
@@ -48,7 +52,7 @@ export const POST = async (req) => {
         return NextResponse.json({}, {status: 200})
     }
     catch(error) {
-        return NextResponse.json({}, {status: 500})
+        return NextResponse.json({error}, {status: 500})
     }
 }
 
@@ -65,18 +69,24 @@ export const GET = async (req, {params}) => {
                 CREATED_AT: 'desc'
             }
         })
-        
+
+        let posts_t = []
+
+    
         for(let i = 0; i < posts.length; i++) {
             const user = await db.user.findUnique({
                 where: {
                     ID: posts[i].OWNER_ID
                 }
             })
-            
-            posts[i].USERNAME = user.USERNAME
+
+            if(!user.ROLES.includes('BANNED')) {
+                posts[i].USERNAME = user.USERNAME
+                posts_t.push(posts[i])
+            }
         }
 
-        return NextResponse.json(posts, {status: 200})
+        return NextResponse.json(posts_t, {status: 200})
     } catch(error) {
         return NextResponse.json({}, {status: 500})
     }

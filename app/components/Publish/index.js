@@ -29,8 +29,9 @@ export const Publish = () => {
             })
         })
 
+        const body = await res.json()
         if(res.status !== 200) {
-            alert('A error ocurred')
+            alert(body.error.message || 'Unknow error')
         }
         else {
             router.push('/')

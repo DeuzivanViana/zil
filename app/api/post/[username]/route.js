@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server'
 
 export const GET = async (req, {params}) => {
     try {
+        const page = Number(await req.nextUrl.searchParams.get('page')) || 1
+        const pageSize = Number(await req.nextUrl.searchParams.get('pageSize')) || 10
+        const offset = (page - 1) * pageSize
+
         const {username} = await params
         
         const user = await db.user.findUnique({
@@ -12,6 +16,11 @@ export const GET = async (req, {params}) => {
         })
        
         const posts = await db.post.findMany({
+            take: pageSize,
+            skip: offset,
+            orderBy: {
+                CREATED_AT: 'desc'
+            },
             where: {
                 OWNER_ID: user.ID
             }
