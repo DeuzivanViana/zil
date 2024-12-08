@@ -10,8 +10,10 @@ datasource db {
 model Post {
   ID String @id @default(cuid())
   CREATED_AT DateTime @default(now())
+  IS_DELETED Boolean @default(false)
 
   OWNER_ID String
+  TITLE String
   CONTENT String
 }
 
@@ -19,7 +21,7 @@ model User {
   ID String @id @default(cuid())
   CREATED_AT DateTime @default(now())
   POSTS_ID String @default("")
-  ROLES String @default("READ/WRITE")
+  ROLES String @default("")
 
   USERNAME String @unique
   PASSWORD_HASH String

@@ -4,8 +4,10 @@ import { z } from 'zod'
 import { createHash } from 'crypto'
 
 const scheme = z.object({
-    username: z.string().max(21).min(2),
-    password: z.string().max(128).min(6)
+    username: z.string().max(21).min(2).trim().regex(/^[a-zA-Z0-9]+$/, {
+        message: "Only a-B and 0-9",
+    }),
+    password: z.string().max(128).min(6).trim()
 })
 
 export const POST = async (req, res) => {

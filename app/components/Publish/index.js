@@ -4,6 +4,7 @@ import { Layout } from '../Layout'
 import { useEffect, useState } from 'react'
 import { Form } from '../UI/Form'
 import { Button } from '../UI/Button'
+import { Input } from '../UI/Input'
 
 export const Publish = () => {
     const [content, setContent] = useState('')
@@ -25,7 +26,8 @@ export const Publish = () => {
         const res = await fetch('/api/post', {
             method: 'POST',
             body: JSON.stringify({
-                content: data.get('content')
+                content: data.get('content'),
+                title: data.get('content')
             })
         })
 
@@ -39,13 +41,14 @@ export const Publish = () => {
     }
 
     const setContentSmart = (text) => {
-        setContent(text.slice(0, 512))
+        setContent(text.slice(0, 5140))
     }
 
     return <Layout title={'Publish'} className={'p-6'}>
         <Form onSubmit={onSubmit}>
-            <textarea  onChange={(e) => setContentSmart(e.target.value)} value={content} rows={10} type='text' name='content' placeholder='Content' className='p-2 text-sm rounded-md outline-none bg-neutral-800 text-neutral-50 resize-none placeholder-neutral-500'/>
-            <footer className='text-neutral-400 text-xs'>chars: {content.length}</footer>
+            <Input name={'title'} placeholder={'Title'} className={'outline-none'}/>
+            <textarea  onChange={(e) => setContentSmart(e.target.value)} value={content} rows={10} type='text' name='content' placeholder='Content' className='p-2 text-sm rounded-md outline-none bg-neutral-800 text-neutral-50 resize-none placeholder-neutral-500 border border-neutral-700'/>
+            <footer className='text-neutral-400 text-xs '>chars: {content.length}</footer>
             <Button type={'submit'} value={'Send'}/>
         </Form>
     </Layout>

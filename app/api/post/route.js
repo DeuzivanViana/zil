@@ -1,4 +1,5 @@
 import { db } from '@/infra/database'
+import { canPost, canPostItContent, isUserBanned, isUserConfirmed } from '@/models/validator'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
@@ -6,7 +7,8 @@ import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 
 const scheme = z.object({
-    content: z.string().max(512).min(2)
+    content: z.string().min(2),
+    title: z.string().max(256).min(2)
 })
 
 export const POST = async (req) => {
@@ -23,7 +25,7 @@ export const POST = async (req) => {
         })
 
         if(session === null)
-            throw {message: 'Session not valid'}
+            throw { message: 'Session not valid' }
 
         const user = await db.user.findUnique({
             where: {
@@ -31,13 +33,18 @@ export const POST = async (req) => {
             }
         })
 
-        if(!user.ROLES.includes('WRITE')) {
-            throw {message: 'You can\'t post'}
+        if(!canPost(user.ROLES)) {
+            throw { message: 'You don\'t have role "write:post" to post.' }
+        }
+
+        if(!canPostItContent(user.ROLES, data.content?.length)) {
+            throw { message: 'Your post is too large' }
         }
         
         const post = await db.post.create({
             data: {
                 CONTENT: data.content,
+                TITLE: data.title,
                 OWNER_ID: user.ID
             }
         })
@@ -69,11 +76,13 @@ export const GET = async (req, {params}) => {
             skip: offset,
             orderBy: {
                 CREATED_AT: 'desc'
+            },
+            where: {
+                IS_DELETED: false
             }
         })
 
         let posts_t = []
-
     
         for(let i = 0; i < posts.length; i++) {
             const user = await db.user.findUnique({
@@ -82,12 +91,12 @@ export const GET = async (req, {params}) => {
                 }
             })
 
-            if(!user.ROLES.includes('BANNED')) {
+            if(!isUserBanned(user.ROLES)) {
                 posts[i].USERNAME = user.USERNAME
                 posts_t.push(posts[i])
             }
 
-            posts[i].TRUSTED = user.ROLES.includes('TRUSTED')
+            posts[i].CONFIRMED = isUserConfirmed(user.ROLES)
         }
 
         return NextResponse.json(posts_t, {status: 200})

@@ -20,6 +20,7 @@ export const UserPost = ({params}) => {
     }, [])
 
     return <Layout title={`Post of ${post_owner_username}`}>
+        <h1>{post?.TITLE}</h1>
         <pre className='p-6 text-neutral-50 max-w-[650px] m-auto break-words whitespace-pre-line'>{post?.CONTENT}</pre>
     </Layout>
 }

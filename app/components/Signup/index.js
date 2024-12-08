@@ -14,6 +14,11 @@ export const Signup = () => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
 
+        if(data.get('password') !== data.get('password1')) {
+            alert('Your password don\'t match')
+            return
+        }
+
         const res = await fetch('/api/user', {
             method: 'POST',
             body: JSON.stringify({
@@ -34,6 +39,7 @@ export const Signup = () => {
         <Form onSubmit={onSubmit}>
             <Input type={'text'} name={'username'} placeholder={'Username'}/>
             <Input type={'password'} name={'password'} placeholder={'Password'}/>
+            <Input type={'password'} name={'password1'} placeholder={'Verify password'}/>
             <Button type={'submit'} value={'Sign-up'}/>
             <Link href={'/signin'} className='text-center text-blue-400 text-xs underline'>sign-in</Link>
         </Form>

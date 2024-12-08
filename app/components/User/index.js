@@ -41,6 +41,7 @@ export const User = ({params}) => {
                         content={val.CONTENT}
                         key={index}
                         id={val.ID}
+                        title={val.TITLE}
                     />
                 })}
             </>
