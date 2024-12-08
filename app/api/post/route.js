@@ -49,15 +49,6 @@ export const POST = async (req) => {
             }
         })
 
-        await db.user.update({
-            where: {
-                ID: user.ID
-            }, 
-            data: {
-                POSTS_ID: user.POSTS_ID.length > 0 ? user.POSTS_ID + '/' + post.ID : post.ID
-            }
-        })
-
         return NextResponse.json({}, {status: 200})
     }
     catch(error) {

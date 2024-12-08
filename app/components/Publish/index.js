@@ -27,7 +27,7 @@ export const Publish = () => {
             method: 'POST',
             body: JSON.stringify({
                 content: data.get('content'),
-                title: data.get('content')
+                title: data.get('title')
             })
         })
 
